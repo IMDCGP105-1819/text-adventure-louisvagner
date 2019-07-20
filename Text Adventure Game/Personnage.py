@@ -1,3 +1,4 @@
+#Information about the player: inventory and position
 class Player:
     def __init__(self, inventory, playerpositionX, playerpositionY,playerposition):
         self.inventory = inventory
@@ -17,6 +18,7 @@ starting_position = (3, 1)
 
 player = Player([], 3, 1, (3,1))
 
+#Loads the excel document to be used as a map
 def load_tiles():
     #Parses a file that describes the world space into the world object
     with open('Carte.xlsx', 'r') as f:

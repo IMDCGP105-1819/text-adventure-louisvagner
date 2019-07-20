@@ -1,5 +1,6 @@
 import Personnage, Objets
 
+#Stores information about which room it is and whats in it
 class Room:
     def __init__(self, name, description, items, location):
         self.name = name
@@ -37,7 +38,7 @@ rooms = []
 #science lab            =     (3, 11)
 
 
-
+#Add the description (name, description, object inside and position) to the room list
 rooms.append( Room("vault door", "- You are in front of the main door. it's the only door that gives access to the outside.\n  There is way out to the east and you can exit the shelter via the huge Vault door.", [Objets.names[8]], (1, 2)))
 #lever
 
@@ -106,6 +107,7 @@ rooms.append(Room("corridor", "- you are in a corridor. You can enter a room to 
 rooms.append(Room("corridor", "- you are in a corridor. You can enter a room to the north, to the south and to the west.", [], (3, 10)))
 rooms.append(Room("corridor", "- you are in a corridor. You can enter a room to the north, to the south and to the east.", [], (1, 6)))
 
+#Add the vacant rooms in the "Not existing room" list
 #Not existing rooms
 rooms.append(Room("None","- There is nothing in this direction", [], (0, 2)))
 rooms.append(Room("None","- There is nothing in this direction", [], (0, 6)))

@@ -27,10 +27,10 @@ inventory = []
 max_inventory = 2
 
 
-
 Used = []
 
 #True/False factors
+#set all factor false until the required action is done
 Victory = False
 PlayerUp = False
 OpenDoor = False
@@ -40,6 +40,21 @@ RatsGone = False
 NoWater = False
 LoadedGun = False
 
+def Look_action(x):
+    if Personnage.player.playerposition == Objets.position[x]:
+        print(Objets.items[x]) 
+    elif Objets.names[x] in inventory or Objets.names[x] in Used:
+        print(Objets.items[x])
+    else:
+        print("There is no "+ Objets.names[x]+  " in this room.")
+
+def Take_action(x):
+    pass
+
+def Use_action(x):
+    pass
+
+    
 
 #ask for input until the game isn't finished
 while Victory == False:
@@ -61,12 +76,15 @@ while Victory == False:
 
 
 #move inputs  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
+    #command for the player to move inside the game
     elif playerinput == "move":
+        #check if condition is completed.
+        #If it is not:
         if Objets.names[0] not in Used:
             print("You might want to wear your uniform instead of going out half naked.")
             time.sleep(3)
 
+        #If it is:
         elif Objets.names[0] in Used:
             print("- in which direction do you want to move ?")
             playerinput = input("move ").lower()
@@ -75,6 +93,7 @@ while Victory == False:
             if playerinput == "north":
                 Personnage.player.move(0, -1)
                 rm = Salles.search_room(Personnage.player.playerposition)
+                #No direction message
                 if rm.name == "None":
                     print("- There is nothing in this direction.")
                     Personnage.player.move(0, 1)
@@ -88,6 +107,7 @@ while Victory == False:
             elif playerinput == "south":
                 Personnage.player.move(0, 1)
                 rm = Salles.search_room(Personnage.player.playerposition)
+                #No direction message
                 if rm.name == "None":
                     print("- There is nothing in this direction.")
                     Personnage.player.move(0, -1)
@@ -100,11 +120,13 @@ while Victory == False:
         #move east    
             elif playerinput == "east":
                 if Personnage.player.playerposition == (1, 2):
+                    #check if condition is met to access to end of the game
                     if OpenDoor == True:
                         print("  #While leaving the room, you hear the door close behind you.")
                         OpenDoor = False
                         Personnage.player.move(1, 0)
                         rm = Salles.search_room(Personnage.player.playerposition)
+                        #No direction message
                         if rm.name == "None":
                             print("- There is nothing in this direction.")
                             Personnage.player.move(-1, 0)
@@ -113,6 +135,7 @@ while Victory == False:
                 else:
                     Personnage.player.move(1, 0)
                     rm = Salles.search_room(Personnage.player.playerposition)
+                    #No direction message
                     if rm.name == "None":
                         print("- There is nothing in this direction.")
                         Personnage.player.move(-1, 0)
@@ -126,12 +149,14 @@ while Victory == False:
             elif playerinput == "west":
                 Personnage.player.move(-1, 0)
                 rm = Salles.search_room(Personnage.player.playerposition)
+                #No direction message
                 if rm.name == "None":
                     print("- There is nothing in this direction.")
                     Personnage.player.move(1, 0)
                 else:
                     print("- you enter the " + rm.name)
                     if Personnage.player.playerposition == (1, 10):
+                        #Error message if player wants to access a room and conditions are not met
                         if RatsGone == False:
                             print("  #There is a problem, these rats shouldn't be there and they appear to have been in contact with, \n"
                                   "  #lets say, not really good products.")
@@ -149,12 +174,16 @@ while Victory == False:
                     
         #move down
             elif playerinput == "down":
+                #Error message when player wants to go downwards with the elevator
                 if Personnage.player.playerposition == (2, 10):
                     print("- You can't go more downwards.")
                 elif Personnage.player.playerposition == (2, 6):
+                    #Check if condition are met to have access to more of the level
+                    #If not:
                     if NoWater == False:
                         print("\n*** WARNING There is a problem on level -2! ***\n"
                               "- For your safety the elevator won't go down till the problem is not solved.")
+                    #If it is reached
                     elif NoWater == True:
                         Personnage.player.move(0, 4)
                         rm = Salles.search_room(Personnage.player.playerposition)
@@ -172,12 +201,14 @@ while Victory == False:
             print("- Invalid syntax! Please write again")
                 
 #look input - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-    
+
+    #command for the player to look inside the game
     elif playerinput == "look":
-        print("- what do you want to look at ?")
+        print("- what do you want to look at?")
         playerinput = input("look ").lower()
         rm = Salles.search_room(Personnage.player.playerposition)
-        
+
+    #Print a description of the room the player is in
     #inputs for all rooms
         if playerinput == "room":
             print(rm.description)
@@ -191,122 +222,55 @@ while Victory == False:
                 print(inventory)
 
         elif playerinput == Objets.names[0]:
-            if Personnage.player.playerposition == Objets.position[0]:
-                print(Objets.items[0])
-            elif Objets.names[0] in inventory or Objets.names[0] in Used:
-                print(Objets.items[0])
-            else:
-                print("There is no uniform in this room.")
+            Look_action(0)
+            #if Personnage.player.playerposition == Objets.position[0]:
+            #    print(Objets.items[0])
+            #elif Objets.names[0] in inventory or Objets.names[0] in Used:
+            #    print(Objets.items[0])
+            #else:
+            #    print("There is no uniform in this room.")
             
         elif playerinput == Objets.names[1]:
-            if Personnage.player.playerposition == Objets.position[1]:
-                print(Objets.items[1])
-            elif Objets.names[1] in inventory or Objets.names[1] in Used:
-                print(Objets.items[1])
-            else:
-                print("There is no watch in this room.")
+            Look_action(1)
 
         elif playerinput == Objets.names[2]:
-            if Personnage.player.playerposition == Objets.position[2]:
-                print(Objets.items[2])
-            elif Objets.names[2] in inventory or Objets.names[2] in Used:
-                print(Objets.items[2])
-            else:
-                print("There is no broom in this room.")
+            Look_action(2)
         
         elif playerinput == Objets.names[3]:
-            if Personnage.player.playerposition == Objets.position[3]:
-                print(Objets.items[3])
-            elif Objets.names[3] in inventory or Objets.names[3] in Used:
-                print(Objets.items[3])
-            else:
-                print("There is no notebook in this room.")
+            Look_action(3)
 
         elif playerinput == Objets.names[4]:
-            if Personnage.player.playerposition == Objets.position[4]:
-                print(Objets.items[4])
-            elif Objets.names[4] in inventory or Objets.names[4] in Used:
-                print(Objets.items[4])
-            else:
-                print("There is no watch in this room.")
+            Look_action(4)
         
         elif playerinput == Objets.names[5] or playerinput == "adhesive" or playerinput == "tape":
-            if Personnage.player.playerposition == Objets.position[5]:
-                print(Objets.items[5])
-            elif Objets.names[5] in inventory or Objets.names[5] in Used:
-                print(Objets.items[5])
-            else:
-                print("There is no adhesive tape in this room.")
+            Look_action(5)
 
         elif playerinput == Objets.names[6]:
-            if Personnage.player.playerposition == Objets.position[6]:
-                print(Objets.items[6])
-            elif Objets.names[6] in inventory or Objets.names[6] in Used:
-                print(Objets.items[6])
-            else:
-                print("There is no armor in this room.")
+            Look_action(6)
         
         elif playerinput == Objets.names[7]:
-            if Personnage.player.playerposition == Objets.position[7]:
-                print(Objets.items[7])
-            elif Objets.names[7] in inventory or Objets.names[7] in Used:
-                print(Objets.items[7])
-            else:
-                print("There is no gun in this room.")
+            Look_action(7)
         
         elif playerinput == Objets.names[8]:
-            if Personnage.player.playerposition == Objets.position[8]:
-                print(Objets.items[8])
-            elif Objets.names[8] in inventory or Objets.names[8] in Used:
-                print(Objets.items[8])
-            else:
-                print("There is no lever in this room.")
+            Look_action(8)
         
         elif playerinput == Objets.names[9]:
-            if Personnage.player.playerposition != Objets.position[9]:
-                print("There are no buttons in this room.")
-            if Personnage.player.playerposition == Objets.position[9]:
-                print(Objets.items[9])
+            Look_action(9)
         
         elif playerinput == Objets.names[10]:
-            if Personnage.player.playerposition == Objets.position[10]:
-                print(Objets.items[10])
-            elif Objets.names[10] in inventory or Objets.names[10] in Used:
-                print(Objets.items[10])
-            else:
-                print("There are no bottles in this room.")
+            Look_action(10)
 
         elif playerinput == Objets.names[11]:
-            if Personnage.player.playerposition == Objets.position[11]:
-                print(Objets.items[11])
-            elif Objets.names[11] in inventory or Objets.names[11] in Used:
-                print(Objets.items[11])
-            else:
-                print("There are no syringes in this room.")
-
+            Look_action(11)
+            
         elif playerinput == Objets.names[12]:
-            if Personnage.player.playerposition == Objets.position[12]:
-                print(Objets.items[12])
-            elif Objets.names[12] in inventory or Objets.names[21] in Used:
-                print(Objets.items[1])
-            else:
-                print("There are no rats in this room.")
+            Look_action(12)
 
         elif playerinput == Objets.names[13]:
-            if Personnage.player.playerposition == Objets.position[13]:
-                print(Objets.items[13])
-            elif Objets.names[13] in inventory or Objets.names[13] in Used:
-                print(Objets.items[13])
-            else:
-                print("There are no bullets in this room.")
+            Look_action(13)
 
         elif playerinput == Objets.names[14]:
-            if Personnage.player.playerposition == Objets.position[14]:
-                print(Objets.items[14])
-            elif Objets.names[14] in inventory or Objets.names[14] in Used:
-                print(Objets.items[14])
-            else:
-                print("There is no dagger in this room.")
+            Look_action(14)
                 
         else:
             print("- Invalid syntax! Please write again")  
@@ -801,6 +765,11 @@ while Victory == False:
                     print("- Allright, lets close the door then. Action the lever the lever whenever you'r ready.")
                     OpenDoor = False
 
+    elif playerinput == "help":
+        print("You find yourself in a shelter and decide to get out of it. To find a way out you will need to solve few  "
+              "problems to happens in the shelter. Look carefully around you for any clue. Look at the description of the"
+              "objects too, they might help you.")
+              
     else:
         print("- Invalid syntax! Please write again")
 

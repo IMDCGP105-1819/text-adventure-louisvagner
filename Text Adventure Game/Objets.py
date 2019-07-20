@@ -1,15 +1,18 @@
 # Important objects - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+#Keeps all the informations about each items
 class Item:
     def __init__(self, name, description, location):
         self.name = name
         self.description = description
         self.location = location
 
+#Empty lists holding specific informations
 items = []
 names = []
 position = []
 
+#All items in the world with, respectively, its name, description and position
 uniform = Item("uniform","- Shirt and trouser representative of the vault you are in. \n /!\ Put it on before getting out of the barracks.", (2, 0))
     #A mettre sinon <<Intrusion>>
 
@@ -122,6 +125,7 @@ class chemicals:
     pass
 """
 
+#Add each "item description" to the description list
 items.append(uniform.description)#0
 items.append(watch.description)#1
 items.append(broom.description)#2
@@ -138,6 +142,7 @@ items.append(rats.description)#12
 items.append(bullets.description)#13
 items.append(dagger.description)#14
 
+#Add each "Item name" to the name list
 names.append(uniform.name)#0
 names.append(watch.name)#1
 names.append(broom.name)#2
@@ -154,6 +159,7 @@ names.append(rats.name)#12
 names.append(bullets.name)#13
 names.append(dagger.name)#14
 
+#Add each "Item position" to the position list
 position.append(uniform.location)#0
 position.append(watch.location)#1
 position.append(broom.location)#2
