@@ -1,6 +1,7 @@
 import Salles, Objets, Personnage
 import time, sys
 
+#introduction message
 print("                                                                                                          "
       "......................................................................................................... "
       "                                                                                                          "
@@ -22,11 +23,12 @@ print("- ZZzzz.....ZZzzzz....ZZzzzz..... ... ... ... ... ")
 
 rm = Salles.search_room(Personnage.player.playerposition)
 
+#create an empty list for the inventory
 inventory = []
 
 max_inventory = 2
 
-
+#create an empty list for all the items that have been used and don't have a use afterwards in the game
 Used = []
 
 #True/False factors
@@ -40,19 +42,38 @@ RatsGone = False
 NoWater = False
 LoadedGun = False
 
+#function for looking at an object, check if the object is next to the player.
 def Look_action(x):
     if Personnage.player.playerposition == Objets.position[x]:
         print(Objets.items[x]) 
     elif Objets.names[x] in inventory or Objets.names[x] in Used:
         print(Objets.items[x])
     else:
-        print("There is no "+ Objets.names[x]+  " in this room.")
+        print("There is no " + Objets.names[x] + " in this room.")
 
+#function for taking an object, check if the object is next to the player.
 def Take_action(x):
-    pass
+    if Objets.names[x] in inventory:
+        print("- You already have this item, check your inventory if you need.")
+    else:
+        if len(inventory) < max_inventory:
+            print("- a(n) " + Objets.names[x] + " has been added to your inventory.")
+            inventory.append(Objets.names[x])
+            rm.items.remove(Objets.names[x])
+            if Objets.names[x] == Objets.names[6]:
+                HaveMask = True
+        else:
+            print("There is no more space left in your inventory")
 
-def Use_action(x):
-    pass
+#function for droping an object, check if the object is in the player's inventory.
+def Drop_action(x):
+    if Objets.names[x] not in inventory:
+        print("- You don't have this object in your inventory.")
+    elif Objets.names[x] in inventory:
+        print("- You don't have a(n) " + Objets.names[x] + " anymore in your inventory.")
+        inventory.remove(Objets.names[x])
+        rm = Salles.search_room(Personnage.player.playerposition)
+        rm.items.append(Objets.names[x])
 
     
 
@@ -223,12 +244,6 @@ while Victory == False:
 
         elif playerinput == Objets.names[0]:
             Look_action(0)
-            #if Personnage.player.playerposition == Objets.position[0]:
-            #    print(Objets.items[0])
-            #elif Objets.names[0] in inventory or Objets.names[0] in Used:
-            #    print(Objets.items[0])
-            #else:
-            #    print("There is no uniform in this room.")
             
         elif playerinput == Objets.names[1]:
             Look_action(1)
@@ -283,98 +298,33 @@ while Victory == False:
 
         #removing the object from where it is to the inventory
         if playerinput == Objets.names[0]:
-            if Objets.names[0] in inventory:
-                print("- You already have this item, check your inventory if you need.")
-            else:
-                if len(inventory) < max_inventory:
-                    print("- you take your uniform under the arm.")
-                    inventory.append(Objets.names[0])
-                    rm.items.remove(Objets.names[0])
-                else:
-                    print("There is no more space left in your inventory")
+            Take_action(0)
         
         elif playerinput == Objets.names[1]:
-            if Objets.names[1] in inventory:
-                print("- You already have this item, check your inventory if you need.")
-            else:
-                if len(inventory) < max_inventory:
-                    print("- You put your watch on our wrist.")
-                    inventory.append(Objets.names[1])
-                    rm.items.remove(Objets.names[1])
-                else:
-                    print("There is no more space left in your inventory")
+            Take_action(1)
                 
         elif playerinput == Objets.names[2]:
-            if Objets.names[2] in inventory:
-                print("- You already have this item, check your inventory if you need.")
-            else:
-                if len(inventory) < max_inventory:
-                    print("- You take the broom with you, the dust on it make you caugh a bit.")
-                    inventory.append(Objets.names[2])
-                    rm.items.remove(Objets.names[2])
-                else:
-                    print("There is no more space left in your inventory")
+            Take_action(2)
           
         elif playerinput == Objets.names[3]:
-            if Objets.names[3] in inventory:
-                print("- You already have this item, check your inventory if you need.")
-            else:
-                if len(inventory) < max_inventory:
-                    print("- A notebook has been added to your inventory.")
-                    inventory.append(Objets.names[3])
-                    rm.items.remove(Objets.names[3])
-                else:
-                    print("There is no more space left in your inventory")
+            Take_action(3)
 
         elif playerinput == Objets.names[4]:
-            if Objets.names[4] in inventory:
-                print("- You already have this item, check your inventory if you need.")
-            else:
-                if len(inventory) < max_inventory:
-                    print("- You take the toolbox with you.")
-                    inventory.append(Objets.names[4])
-                    rm.items.remove(Objets.names[4])
-                else:
-                    print("There is no more space left in your inventory")
+            Take_action(4)
              
         elif playerinput == Objets.names[5] or playerinput == "adhesive" or playerinput == "tape":
-            if Objets.names[5] in inventory:
-                print("- You already have this item, check your inventory if you need.")
-            else:
-                if len(inventory) < max_inventory:
-                    print("- An adhesif tape has been added to your inventory.")
-                    inventory.append(Objets.names[5])
-                    rm.items.remove(Objets.names[5])
-                else:
-                    print("There is no more space left in your inventory")
+            Take_action(5)
                 
         elif playerinput == Objets.names[6]:
             if RatsGone == True:
-                if Objets.names[6] in inventory:
-                    print("- You already have this item, check your inventory if you need.")
-                else:
-                    if len(inventory) < max_inventory:
-                        print("- You take the armor with you, it's really heavy though.")
-                        inventory.append(Objets.names[6])
-                        rm.items.remove(Objets.names[6])
-                        HaveMask = True
-                    else:
-                        print("There is no more space left in your inventory")                    
+                Take_action(6)                 
             elif RatsGone == False:
                 print("- The closer you get to the armor, the closer the rats are to you. It would be better to get them out of \n"
                       "  the way to collect the armor.")
                 
         elif playerinput == Objets.names[7]:
             if RatsGone == True:
-                if Objets.names[7] in inventory:
-                    print("- You already have this item, check your inventory if you need.")
-                else:
-                    if len(inventory) < max_inventory:
-                        print("- You take the gun.")
-                        inventory.append(Objets.names[7])
-                        rm.items.remove(Objets.names[7])
-                    else:
-                        print("There is no more space left in your inventory")
+                Take_action(7)
             elif RatsGone == False:
                 print("- The closer you get to the gun, the closer the rats are to you. It would be better to get them out of \n"
                       "  the way to collect the gun.")
@@ -386,51 +336,19 @@ while Victory == False:
             print("- You can't take the buttons with you,they are fixed in the wall!")
          
         elif playerinput == Objets.names[10]:
-            if Objets.names[10] in inventory:
-                print("- You already have this item, check your inventory if you need")
-            else:
-                if len(inventory) < max_inventory:
-                    print("- The bottles has been added to your inventory.")
-                    inventory.append(Objets.names[10])
-                    rm.items.remove(Objets.names[10])
-                else:
-                    print("There is no more space left in your inventory")
+            Take_action(10)
                 
         elif playerinput == Objets.names[11]:
-            if Objets.names[11] in inventory:
-                print("- You already have this item, check your inventory if you need.")
-            else:
-                if len(inventory) < max_inventory:
-                    print("- The syringes has been added to your inventory.")
-                    inventory.append(Objets.names[11])
-                    rm.items.remove(Objets.names[11])
-                else:
-                    print("There is no more space left in your inventory")
+            Take_action(11)
                 
         elif playerinput == Objets.names[12]:
             print("- You might not want to touch the rats with bare hands.")
 
         elif playerinput == Objets.names[13]:
-            if Objets.names[13] in inventory:
-                print("- You already have this item, check your inventory if you need.")
-            else:
-                if len(inventory) < max_inventory:
-                    print("- The bullets have been added to your inventory.")
-                    inventory.append(Objets.names[13])
-                    rm.items.remove(Objets.names[13])
-                else:
-                    print("There is no more space left in your inventory")
+            Take_action(13)
                 
         elif playerinput == Objets.names[14]:
-            if Objets.names[14] in inventory:
-                print("- You already have this item, check your inventory if you need.")
-            else:
-                if len(inventory) < max_inventory:
-                    print("- You take the dagger and put it in your pocket.")
-                    inventory.append(Objets.names[14])
-                    rm.items.remove(Objets.names[14])
-                else:
-                    print("There is no more space left in your inventory")
+            Take_action(14)
                 
         else:
             print("- Invalid syntax! Please write again")
@@ -443,125 +361,55 @@ while Victory == False:
         if Personnage.player.playerposition == (2, 2) or Personnage.player.playerposition == (2, 6) or Personnage.player.playerposition == (2, 10):
             print("Please don't leave objects in the Elevator. someone else might take it from you.")
             playerinput = input().lower()
+            
         #no drops in the corridors
         elif Personnage.player.playerposition == (3, 2) or Personnage.player.playerposition == (3, 6) or Personnage.player.playerposition == (3, 10) or Personnage.player.playerposition == (1, 10):
             print("Please don't leave objects in the way, it clogs up the passage.")
             playerinput = input().lower()
+            
         #removing the object from the inventory to the room where the player is
         print("- what do you want to drop ?")
         playerinput = input("drop ").lower()
 
         if playerinput == Objets.names[0]:
-            if Objets.names[0] not in inventory:
-                print("- You don't have this object in your inventory to throw.")
-            elif Objets.names[0] in inventory:
-                print("- You leave your uniform on a chair or whatever you found.")
-                inventory.remove(Objets.names[0])
-                rm = Salles.search_room(Personnage.player.playerposition)
-                rm.items.append(Objets.names[0])
+            Drop_action(0)
             
         elif playerinput == Objets.names[1]:
-            if Objets.names[1] not in inventory:
-                print("- You don't have this object in your inventory to throw.")
-            elif Objets.names[1] in inventory:
-                print("- You take the watch off your wrist and place it on a table.")
-                inventory.remove(Objets.names[1])
-                rm = Salles.search_room(Personnage.player.playerposition)
-                rm.items.append(Objets.names[1])
+            Drop_action(1)
             
         elif playerinput == Objets.names[2]:
-            if Objets.names[2] not in inventory:
-                print("- You don't have this object in your inventory to throw.")
-            else:
-                print("- You get rid of the broom in a corner of the room.")
-                inventory.remove(Objets.names[2])
-                rm = Salles.search_room(Personnage.player.playerposition)
-                rm.items.append(Objets.names[2])
+           Drop_action(2)
             
         elif playerinput == Objets.names[3]:
-            if Objets.names[3] not in inventory:
-                print("- You don't have this object in your inventory to throw.")
-            else:
-                print("- You don't have a notebook anymore in your inventory.")
-                inventory.remove(Objets.names[3])
-                rm = Salles.search_room(Personnage.player.playerposition)
-                rm.items.append(Objets.names[3])
+            Drop_action(3)
 
         elif playerinput == Objets.names[4]:
-            if Objets.names[4] not in inventory:
-                print("- You don't have this object in your inventory to throw.")
-            else:
-                print("- You put down the toolbox.")
-                inventory.remove(Objets.names[4])
-                rm = Salles.search_room(Personnage.player.playerposition)
-                rm.items.append(Objets.names[4])
+            Drop_action(4)
             
         elif playerinput == Objets.names[5] or playerinput == "adhesive" or playerinput == "tape":
-            if Objets.names[5] not in inventory:
-                print("- You don't have this object in your inventory to throw.")
-            else:
-                print("- You don't have an adhesif anymore tape in your inventory.")
-                inventory.remove(Objets.names[5])
-                rm = Salles.search_room(Personnage.player.playerposition)
-                rm.items.append(Objets.names[5])
+            Drop_action(5)
             
         elif playerinput == Objets.names[6]:
-            if Objets.names[6] not in inventory:
-                print("- You don't have this object in your inventory to throw.")
-            else:
-                print("- You leave the armor on the floor, on the side, and feel realised.")
-                inventory.remove(Objets.names[6])
-                rm = Salles.search_room(Personnage.player.playerposition)
-                rm.items.append(Objets.names[6])
-                HaveMask = False
+            Drop_action(6)
+            HaveMask = False
             
         elif playerinput == Objets.names[7]:
-            if Objets.names[7] not in inventory:
-                print("- You don't have this object in your inventory to throw.")
-            else:
-                print("- You place the gun in a safe place of the room.")
-                inventory.remove(Objets.names[7])
-                rm = Salles.search_room(Personnage.player.playerposition)
-                rm.items.append(Objets.names[7])
+            Drop_action(7)
             
         elif playerinput == Objets.names[10]:
-            if Objets.names[10] not in inventory:
-                print("- You don't have this object in your inventory to throw.")
-            else:
-                print("- You don't have bottles anymore in your inventory.")
-                inventory.remove(Objets.names[10])
-                rm = Salles.search_room(Personnage.player.playerposition)
-                rm.items.append(Objets.names[10])
+            Drop_action(10)
             
         elif playerinput == Objets.names[11]:
-            if Objets.names[11] not in inventory:
-                print("- You don't have this object in your inventory to throw.")
-            else:
-                print("- You don't have syringes anymore in your inventory.")
-                inventory.remove(Objets.names[11])
-                rm = Salles.search_room(Personnage.player.playerposition)
-                rm.items.append(Objets.names[11])
+            Drop_action(11)
 
         elif playerinput == Objets.names[12]:
             print("- You can't take them in the first place.")
 
         elif playerinput == Objets.names[13]:
-            if Objets.names[13] not in inventory:
-                print("- You don't have this object in your inventory to throw.")
-            else:
-                print("- You don't have bullets anymore in your inventory.")
-                inventory.remove(Objets.names[13])
-                rm = Salles.search_room(Personnage.player.playerposition)
-                rm.items.append(Objets.names[13])
+            Drop_action(13)
 
         elif playerinput == Objets.names[14]:
-            if Objets.names[14] not in inventory:
-                print("- You don't have this object in your inventory to throw.")
-            else:
-                print("- You don't have a dagger anymore in your inventory.")
-                inventory.remove(Objets.names[14])
-                rm = Salles.search_room(Personnage.player.playerposition)
-                rm.items.append(Objets.names[14])
+            Drop_action(14)
 
         else:
             print("- Invalid syntax! Please write again")

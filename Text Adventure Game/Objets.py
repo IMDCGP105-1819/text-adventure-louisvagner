@@ -13,7 +13,7 @@ names = []
 position = []
 
 #All items in the world with, respectively, its name, description and position
-uniform = Item("uniform","- Shirt and trouser representative of the vault you are in. \n /!\ Put it on before getting out of the barracks.", (2, 0))
+uniform = Item("uniform","- Shirt and trouser representative of the vault you are in. \n /!\ Put it on before getting out of the barracks.", (3, 1))
     #A mettre sinon <<Intrusion>>
 
 watch = Item("watch","- Bracelet giving the time.", (3, 1))
