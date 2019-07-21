@@ -15,6 +15,8 @@ print("                                                                         
       "In this adventure you incarnate a worker in the shelter, you work in a Water treament plant. The incident "
       "that happened on the planet made you lose everything you cared about, your home, your wife and with her,  "
       "your will to live. Anger grew into you and all you want to have is revenge.                               "
+      "                                                                                                          "
+      "If you need any help just type 'help' in the command bar, good luck!                                      "
       "                                                                      * * *(End of transmition)* * *      "
       "......................................................................................................... "
       "                                                                                                          ")
@@ -99,8 +101,7 @@ while Victory == False:
 #move inputs  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     #command for the player to move inside the game
     elif playerinput == "move":
-        #check if condition is completed.
-        #If it is not:
+        #Check if the uniform is added to the Used list (the player needs to wear the uniform)
         if Objets.names[0] not in Used:
             print("You might want to wear your uniform instead of going out half naked.")
             time.sleep(3)
@@ -141,7 +142,8 @@ while Victory == False:
         #move east    
             elif playerinput == "east":
                 if Personnage.player.playerposition == (1, 2):
-                    #check if condition is met to access to end of the game
+                    #Check if condition OpenDoor is set to true to access to the end of the game
+                    #If it is:
                     if OpenDoor == True:
                         print("  #While leaving the room, you hear the door close behind you.")
                         OpenDoor = False
@@ -199,12 +201,12 @@ while Victory == False:
                 if Personnage.player.playerposition == (2, 10):
                     print("- You can't go more downwards.")
                 elif Personnage.player.playerposition == (2, 6):
-                    #Check if condition are met to have access to more of the level
-                    #If not:
+                    #Check if condition NoWater is set to true to have access to more of the level
+                    #If it is not:
                     if NoWater == False:
                         print("\n*** WARNING There is a problem on level -2! ***\n"
                               "- For your safety the elevator won't go down till the problem is not solved.")
-                    #If it is reached
+                    #If it is
                     elif NoWater == True:
                         Personnage.player.move(0, 4)
                         rm = Salles.search_room(Personnage.player.playerposition)
@@ -430,6 +432,8 @@ while Victory == False:
     #use the BROOM
         elif playerinput == Objets.names[2]:
             if Objets.names[2] in inventory:
+                #check if condition RatsGone is set to true
+                #if it is not:
                 if RatsGone == False :
                     if Personnage.player.playerposition != (1, 10):
                         print("- You sweep the floor, there is no more dust in the room.")
@@ -451,10 +455,13 @@ while Victory == False:
                                 print("- Invalid syntax! Please write again")
                         else:
                             print("- Invalid syntax! Please write again")
+                #if it is:
                 elif RatsGone == True:
                     print("- You sweep the floor, there is no more dust in the room.")
+                
                 else:
                     print("- Invalid syntax! Please write again")
+            #check if object is in the player's inventory
             elif Objets.names[2] not in inventory:
                 print("- It's gonna be difficult to use a broom without having a broom.")
             else:
@@ -463,6 +470,8 @@ while Victory == False:
     #use the DAGGER
         elif playerinput == Objets.names[14]:
             if Objets.names[14] in inventory:
+                #Check if condition RatsGone is set to true
+                #If it is not:
                 if RatsGone == False:
                     if Personnage.player.playerposition == (1, 10):
                         print("- You want to attack the rats?")
@@ -474,6 +483,7 @@ while Victory == False:
                             print("- OK, well there's nothing else you might attack")
                     elif Personnage.player.playerposition != (1, 10):
                         print("- There is nothing to stab around here. Chill out you psycho!")
+                #if it is:
                 elif RatsGone == True:
                     print("- There is nothing to stab around here. Chill out you psycho!")
             else:
@@ -482,6 +492,7 @@ while Victory == False:
            
     #use the NOTEBOOK
         elif playerinput == Objets.names[3]:
+            #check if the object is in the player's inventory
             if Objets.names[3] in inventory:
                 print("- Do you want to write in it or to read your notes?")
                 playerinput = input().lower()
@@ -494,6 +505,7 @@ while Victory == False:
                     
     #use the TOOLBOX
         elif playerinput == Objets.names[4]:
+            #check if the object is in the player's inventory
             if Objets.names[4] in inventory:
                 print("- There is nothing that really needs reparation.")
             else:
@@ -501,6 +513,7 @@ while Victory == False:
                 
     #use the ADHESIVE TAPE
         elif playerinput == Objets.names[5] or playerinput == "adhesive" or playerinput == "tape":
+            #check if the object is in the player's inventory
             if Objets.names[5] in inventory:
                 if Personnage.player.playerposition != (3, 5):
                     print("- There is nothing useful do with it in this room.")
@@ -520,9 +533,13 @@ while Victory == False:
 
     #use the LEVER
         elif playerinput == Objets.names[8]:
+            #check if the player is in the same room as the object
             if Objets.names[8] in rm.items:
+                #check if condition OpenDoor is set to true
+                #if it is:
                 if OpenDoor == True:
                     print("- The Vault Door is already open.")
+                #if it is not
                 elif OpenDoor == False:
                     print("- You action the lever with difficulty but manage to do it. The big door of the vault opens up with a lot "
                           "  of noise.")
@@ -532,6 +549,7 @@ while Victory == False:
 
     #use the SYRINGES
         elif playerinput == Objets.names[11]:
+            #check if the object is in the player's inventory
             if Objets.names[11] in inventory:
                 print("- These are the syringes with the same product used on the rats you can find in storage room. You \n"
                       "  shouldn't use them anymore.")
@@ -546,8 +564,10 @@ while Victory == False:
         
     #wear the UNIFORM
         if playerinput == Objets.names[0]:
+            #check if the uniform is already in the Used list
             if Objets.names[0] in Used:
                 print("- You already wear your uniform.")
+            #check if the object is in the player's inventory
             elif Objets.names[0] in inventory:
                 print("- You now wear your uniform, you can freely move in the vault.")
                 inventory.remove(Objets.names[0])
@@ -557,8 +577,10 @@ while Victory == False:
 
     #wear the ARMOR
         elif playerinput == Objets.names[6]:
+            #check if the armor is already in the Used list
             if Objets.names[6] in Used:
                 print("- You already wear an armor.")
+            #check if the object is in the player's inventory
             elif Objets.names[6] in inventory:
                 print("- You are now equiped with a fighting armor.")
                 inventory.remove(Objets.names[6])
@@ -568,6 +590,7 @@ while Victory == False:
 
     #wear the GAS MASK
         elif playerinput == "gas mask" or playerinput == "mask":
+            #check if the condition GasMask is set to true
             if GasMask == True:
                 print("You already wear a gas mask")
             elif HaveMask == True:
@@ -579,6 +602,7 @@ while Victory == False:
     #use the BULLETS
     elif playerinput == "reload gun":
         if Objets.names[13] in inventory:
+            #check if the object is in the player's inventory
             if Objets.names[7] in inventory:
                 print("- The gun is now loaded with bullets.")
                 inventory.remove(Objets.names[13])
@@ -586,20 +610,26 @@ while Victory == False:
             elif Objets.names[7] not in inventory:
                 print("- You don't have a gun in which to put the bullets.")
         elif Objets.names[13] not in inventory:
-            print("- You have bullets to reload the gun in your inventory.")
+            print("- You don't have any bullets to reload the gun in your inventory.")
 
 
 
     #Get out of the SHELTER
     elif playerinput == "exit shelter":
-        if OpenDoor is False:
+        #check if condition OpenDoor is set to true
+        #if it is not:
+        if OpenDoor == False:
             print("- The Vault door is closed, you need to open it before having the possibility to go out.")
-        elif OpenDoor is True:
+        #if it is:
+        elif OpenDoor == True:
+            #check if condition GasMask is set to true
+            #if it is not:
             if GasMask == False:
                 print("- You are going to exit the shelter in order to find the responsible of the world's catastrophy. But \n "
                       "  before you get out you might want to get yourself a gas mask in order to breathe when you will be in \n "
                       "  the Wasteland and it's radioactive clouds. (Door closes) ")
                 OpenDoor = False
+            #if it is:
             elif GasMask == True:
                 print("- You are going to exit the shelter in order to find the responsible of the world's catastrophy. Make \n"
                       "  sure you have everything you need with you for this adventure. It's going to be your last one!\n "
@@ -613,15 +643,23 @@ while Victory == False:
                     print("- Allright, lets close the door then. Action the lever the lever whenever you'r ready.")
                     OpenDoor = False
 
+    #Help command
     elif playerinput == "help":
-        print("You find yourself in a shelter and decide to get out of it. To find a way out you will need to solve few  "
-              "problems to happens in the shelter. Look carefully around you for any clue. Look at the description of the"
-              "objects too, they might help you.")
+        print("You are stuck somewhere or you don't know how to start? Here are some commands you should use:            "
+              "- movement input: move (press enter) + north / south / east / west / up / down                            "
+              "- observation input: look (press enter) + room / name of the object / inventory                           "
+              "- pick up input: take (press enter) + name of the object                                                  "
+              "- drop input: drop (press enter) + name of the object                                                     "
+              "- action input: use (press enter) + name of the object                                                    "
+              "                                                                                                          "
+              " These are the basic input you will use in the game, however These are not all the full actions of the    "
+              "game, other actions have word of actions easily understandable.                                           "
+              "                                                                                                          ")
               
     else:
         print("- Invalid syntax! Please write again")
-
-if Victory is True:
+#Check if condition Victory is true
+if Victory == True:
     print("                                                                                                          "
           "......................................................................................................... "
           "                                                                                                          "
@@ -641,6 +679,7 @@ if Victory is True:
           "                                                                                                          "
           ".........................................................................................................."
           "                                                                                                          ")
+    #Depending on the object the player has gathered print the right ending text
     if Objets.names[7] in inventory and LoadedGun == True:
               
         print("When you arrive in front of the door, you give up the front door with a gun, you break into vault 017 and \n"

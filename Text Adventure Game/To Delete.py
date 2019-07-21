@@ -1,3 +1,0 @@
-Man = True
-
-print(Man)
